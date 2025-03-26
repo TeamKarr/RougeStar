@@ -6,11 +6,11 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     // Start is called before the first frame update
+    Rigidbody2D rb;
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody2D>();
     }
-    Rigidbody2D rb;
     // Update is called once per frame
     void Update()
     {
@@ -22,9 +22,9 @@ public class PlayerMovement : MonoBehaviour
         transform.up = direction;
 
         // move ship
-        float forward = Input.GetAxis("vertical");
+        float forward = Input.GetAxis("Vertical");
 
-        rb.AddForce(transform.up * 100f * forward, ForceMode2D.Force);
+        rb.AddForce(transform.up * 2f * forward, ForceMode2D.Force);
 
 
 
