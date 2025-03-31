@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -9,8 +10,12 @@ public class cameraPosition : MonoBehaviour
 
     [Tooltip("The player object")]
     public Transform player;
-    
+
     public bool useMousePos = true;
+
+    public float maxDistanceFromTarget = 5.0f;
+
+    [Range(0, 0.75f)] public float freeCameraMouseTracking = 0.5f;
 
     void Start()
     {
@@ -22,13 +27,17 @@ public class cameraPosition : MonoBehaviour
     {
         float z = transform.position.z;
         Vector3 m = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 t = player.transform.position;
         if (!useMousePos) {
-            Debug.Log("moving to " + player.transform.position.x + " " + player.transform.position.y + " " + z);
-            transform.position = new Vector3(player.transform.position.x, player.transform.position.y, z);
+            transform.position = new Vector3(t.x, t.y, z);
         } else
         {
-
-            transform.position = (m + player.transform.position)/2;
+            Vector3 desiredPosition = Vector3.Lerp(t, m, freeCameraMouseTracking);
+            Vector3 difference = desiredPosition - t;
+            difference = Vector3.ClampMagnitude(difference, maxDistanceFromTarget);
+            Vector3 result = t + difference;
+            transform.position = new Vector3(result.x, result.y, z);
+            
         }
         
     }
