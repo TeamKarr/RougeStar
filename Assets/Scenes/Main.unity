@@ -314,19 +314,13 @@ MonoBehaviour:
   - name: MaxSpeed
     description: The max speed of the player
     baseValue: 10
-    modifiers:
-    - type: 1
-      value: 2
-      enabled: 1
-      tag: 
+    currentValue: -0.08
+    modifiers: []
   - name: Damage
     description: Bullet Damage
     baseValue: 0
-    modifiers:
-    - type: 0
-      value: 10
-      enabled: 1
-      tag: 
+    currentValue: 0
+    modifiers: []
 --- !u!1 &886992315
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,14 +459,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 580945969}
   modifiers:
-  - attribute:
-      name: 
-      description: 
-      baseValue: 0
-      modifiers: []
-    modifiers:
-      type: 0
-      value: 0
+  - attribute: MaxSpeed
+    modifier:
+      type: 2
+      value: 2
       enabled: 0
       tag: 
   onCollision: 1

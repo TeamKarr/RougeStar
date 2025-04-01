@@ -18,6 +18,7 @@ public class AttributeModifierManager : MonoBehaviour
 
     void Start()
     {
+        addModifiers ();
         collision2D = GetComponent<Collision2D> ();
     }
 
@@ -29,13 +30,48 @@ public class AttributeModifierManager : MonoBehaviour
         //}
     }
 
+    public void addModifiers()
+    {
+        foreach(ModifierHandler m in modifiers)
+        {
+            target.getAttribute(m.attribute).addModifier(m.modifier);
+        }
+    }
+
+    public void removeModifiers()
+    {
+        foreach (ModifierHandler m in modifiers)
+        {
+            target.getAttribute(m.attribute).removeModifier(m.modifier);
+        }
+    }
+
+    public void enableModifiers()
+    {
+        foreach (ModifierHandler m in modifiers)
+        {
+            m.modifier.enabled = true;
+        }
+    }
+
+    public void disableModifiers()
+    {
+        foreach (ModifierHandler m in modifiers)
+        {
+            Debug.Log("Disabled modifiers");
+            m.modifier.enabled = false;
+        }
+    }
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (!active && onCollision)
         {
             if (target.Equals(collision.gameObject.GetComponent<AttributeManager>()))
             {
+                active = true;
                 Debug.Log("Object entered trigger: " + collision.gameObject.name);
+                enableModifiers();
             }
         }
        
@@ -46,7 +82,9 @@ public class AttributeModifierManager : MonoBehaviour
         if (active) {
             if (target.Equals(collision.gameObject.GetComponent<AttributeManager>()))
             {
+                active = false;
                 Debug.Log("Object exited trigger: " + collision.gameObject.name);
+                disableModifiers();
             }
         }
         
@@ -55,7 +93,7 @@ public class AttributeModifierManager : MonoBehaviour
     [System.Serializable]
     public class ModifierHandler
     {
-        public Attribute attribute;
-        public Attribute.AttributeModifier modifiers;
+        public string attribute;
+        public Attribute.AttributeModifier modifier;
     }
 }
